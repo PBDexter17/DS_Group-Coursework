@@ -545,50 +545,56 @@ print(n_distinct(df_all_countries_feats$feature))
 # **************************************
 # age_gender_bkts features
 # **************************************
+#age_gender_bkts 
+
+
 age_gender_bkts <- age_gender_bkts %>%
-  dplyr::left_join(., countries, by = "country_destination")
+  dplyr::left_join(., countries, by = "country_destination")##add countries to the age gender bkt by "country_destination" 
 
 age_gender_bkts <- age_gender_bkts[c("age_bucket", "country_destination", "gender", "population_in_thousands", "year", "destination_language")]
 
 age_gender_bkts <- dplyr::mutate(age_gender_bkts,
-                                 country_language = paste0(country_destination, "_", destination_language))
+                                 country_language = paste0(country_destination, "_", destination_language))##AU_eng
 age_gender_bkts_reshape <- data.frame()
+#5 to 7 var add a new table data frame
+i <- 1
 for(i in unique(age_gender_bkts$country_language)){
   # i <- "AU_eng"
   age_gender_bkts_ <- subset(age_gender_bkts, country_language == i)
   age_gender_bkts_$country_language <- NULL
   age_gender_bkts_ <- reshape(age_gender_bkts_,
-                              direction='wide',
-                              idvar=c('destination_language', 'age_bucket', 'gender', 'year'),
-                              timevar='country_destination')
-  age_gender_bkts_reshape <- bind_rows(
+                              direction='wide',#a format
+                              idvar=c('destination_language', 'age_bucket', 'gender', 'year'),#  contain these columns
+                              timevar='country_destination')# base on this to differentiate. population in thousands.AU from small to big
+  age_gender_bkts_reshape <- bind_rows( #bind by rows
     age_gender_bkts_reshape,
     age_gender_bkts_
   )
+  
 }
 
 age_gender_bkts_reshape$year <- NULL
 age_gender_bkts_reshape <- age_gender_bkts_reshape %>%
   dplyr::mutate(.,
-                gender = toupper(gender),
-                language = str_sub(destination_language, 1, 2)
+                gender = toupper(gender),## change to large character
+                language = str_sub(destination_language, 1, 2)#choose first two letters,eg:english=eg
   ) %>%
-  dplyr::select(-destination_language) %>%
-  dplyr::group_by(age_bucket, gender, language) %>%
-  dplyr::summarise_each(funs(Sum))
-
+  dplyr::select(-destination_language) %>%#choose this col
+  dplyr::group_by(age_bucket, gender, language) %>%#choose and use these three cols as index to form the group
+  dplyr::summarise_each(funs(sum))#
+#which age bucket which gender which language of the population of destination country
+#count the features
 df_all_age_gender_bkts_feats <- dplyr::left_join(df_all[c("id", "age_bucket", "gender", "language")],
                                                  age_gender_bkts_reshape,
-                                                 by = c("age_bucket", "gender", "language"))
+                                                 by = c("age_bucket", "gender", "language"))#add reshape to the dfall according to these three cols.
 df_all_age_gender_bkts_feats$age_bucket <- NULL
 df_all_age_gender_bkts_feats$gender <- NULL
-df_all_age_gender_bkts_feats$language <- NULL
+df_all_age_gender_bkts_feats$language <- NULL#remove these three cols.
 df_all_age_gender_bkts_feats <- melt.data.table(as.data.table(df_all_age_gender_bkts_feats))
-df_all_age_gender_bkts_feats <- data.frame(df_all_age_gender_bkts_feats)
-names(df_all_age_gender_bkts_feats) <- c("id", "feature", "value")
+df_all_age_gender_bkts_feats <- data.frame(df_all_age_gender_bkts_feats)#change the form
+names(df_all_age_gender_bkts_feats) <- c("id", "feature", "value")#give each col a name
 print("age_gender_bkts feature")
-print(n_distinct(df_all_age_gender_bkts_feats$feature))
-
+print(n_distinct(df_all_age_gender_bkts_feats$feature))#10
 
 # **************************************
 # feature binding
