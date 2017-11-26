@@ -167,195 +167,179 @@ print(n_feats)
 # **************************************
 # sessions features
 # **************************************
-sessions$flg <- 1
-sessions <- data.table(sessions)
-sessions[, seq := sequence(.N), by = c("user_id")]
-sessions[, seq_rev := rev(sequence(.N)), by = c("user_id")]
-sessions[, action2 := paste(action, action_type, action_detail, device_type, sep="_"),]
+sessions$flg <- 1 #add 1 to all rows
+sessions <- data.table(sessions) #subset rows, select and compute on columns and perform aggregations by group
+sessions[, seq := sequence(.N), by = c("user_id")] #add feature "seq", the value is decided by the count of the same "user_id".
+sessions[, seq_rev := rev(sequence(.N)), by = c("user_id")] #add feature "seq_rev", the value is the reverse of the count.
+sessions[, action2 := paste(action, action_type, action_detail, device_type, sep="_"),] #add feature "action2" which is joined by all other features except ""secs_elapsed,eg:"index_view_view_search_results_Windows Desktop"
 
 first_execution <- 1
 
 if(first_execution == 1){
+  #new feature "sessions_action_se_sum": sum up all time spent by one user on one action.
   sessions_action_se_sum <- sessions[,list(secs_elapsed_sum = sum(secs_elapsed, na.rm=T)),
                                      by=list(user_id, action)]
-  sessions_action_se_sum <- melt.data.table(sessions_action_se_sum)
-  sessions_action_se_sum$variable <- NULL
+  #na.rm = T, logical. Should missing values (including NaN) be removed
+  
+  #add one feature "variable" and set to null ????no need
+  # sessions_action_se_sum <- melt.data.table(sessions_action_se_sum)
+  # sessions_action_se_sum$variable <- NULL
+  #switch from data.table to data.frame
   sessions_action_se_sum <- data.frame(sessions_action_se_sum)
+  #names(): set the names of an object //c(),combines arguments
   names(sessions_action_se_sum) <- c("id", "feature", "value")
+  #paste "action_se_sum" and add to feature,join with "_" eg: "lookup" ---> "action_se_sum_lookup"
   sessions_action_se_sum$feature <- paste("action_se_sum", sessions_action_se_sum$feature, sep="_")
-  n_distinct(sessions_action_se_sum$feature)
+  
+  install.packages("dplyr")
+  library(dplyr)
+  #n_distinct(), This is a faster and more concise equivalent of length(unique(x))
+  n_distinct(sessions_action_se_sum$feature) #360
+  #save cache
   saveRDS(sessions_action_se_sum, "cache/sessions_action_se_sum.RData")
   
-  
+  #new feature "sessions_action_type_se_sum", sum over secs_elapsed, by use_id and action_type
   sessions_action_type_se_sum <- sessions[,list(secs_elapsed_sum = sum(secs_elapsed, na.rm=T)),
                                           by=list(user_id, action_type)]
-  sessions_action_type_se_sum <- melt.data.table(sessions_action_type_se_sum)
-  sessions_action_type_se_sum$variable <- NULL
+  ####not necessary stupid!!!
+  #sessions_action_type_se_sum <- melt.data.table(sessions_action_type_se_sum)
+  #sessions_action_type_se_sum$variable <- NULL
+  ####not necessary stupid!!!
   sessions_action_type_se_sum <- data.frame(sessions_action_type_se_sum)
   names(sessions_action_type_se_sum) <- c("id", "feature", "value")
   sessions_action_type_se_sum$feature <- paste("action_type_se_sum", sessions_action_type_se_sum$feature, sep="_")
   n_distinct(sessions_action_type_se_sum$feature)
   saveRDS(sessions_action_type_se_sum, "cache/sessions_action_type_se_sum.RData")
   
-  
+  #new feature "sessions_action_detail_se_sum": sum over secs_elapsed, by user_id and action_detail..
   sessions_action_detail_se_sum <- sessions[,list(secs_elapsed_sum = sum(secs_elapsed, na.rm=T)),
                                             by=list(user_id, action_detail)]
-  sessions_action_detail_se_sum <- melt.data.table(sessions_action_detail_se_sum)
-  sessions_action_detail_se_sum$variable <- NULL
   sessions_action_detail_se_sum <- data.frame(sessions_action_detail_se_sum)
   names(sessions_action_detail_se_sum) <- c("id", "feature", "value")
   sessions_action_detail_se_sum$feature <- paste("action_detail_se_sum", sessions_action_detail_se_sum$feature, sep="_")
-  n_distinct(sessions_action_detail_se_sum$feature)
+  n_distinct(sessions_action_detail_se_sum$feature) #156
   saveRDS(sessions_action_detail_se_sum, "cache/sessions_action_detail_se_sum.RData")
   
-  
+  #new feature "sessions_device_type_se_sum": sum over secs_elapsed ,by user_id and device_type
   sessions_device_type_se_sum <- sessions[,list(secs_elapsed_sum = sum(secs_elapsed, na.rm=T)),
                                           by=list(user_id, device_type)]
-  sessions_device_type_se_sum <- melt.data.table(sessions_device_type_se_sum)
-  sessions_device_type_se_sum$variable <- NULL
   sessions_device_type_se_sum <- data.frame(sessions_device_type_se_sum)
   names(sessions_device_type_se_sum) <- c("id", "feature", "value")
   sessions_device_type_se_sum$feature <- paste("device_type_se_sum", sessions_device_type_se_sum$feature, sep="_")
-  n_distinct(sessions_device_type_se_sum$feature)
+  n_distinct(sessions_device_type_se_sum$feature) #14
   saveRDS(sessions_device_type_se_sum, "cache/sessions_device_type_se_sum.RData")
   
-  
+  #new feature "sessions_device_type_se_sum": sum over times, by user_id and action
   sessions_action_flg_sum <- sessions[,list(flg_sum = sum(flg, na.rm=T)),
                                       by=list(user_id, action)]
-  sessions_action_flg_sum <- melt.data.table(sessions_action_flg_sum)
-  sessions_action_flg_sum$variable <- NULL
   sessions_action_flg_sum <- data.frame(sessions_action_flg_sum)
   names(sessions_action_flg_sum) <- c("id", "feature", "value")
   sessions_action_flg_sum$feature <- paste("action_flg_sum", sessions_action_flg_sum$feature, sep="_")
-  n_distinct(sessions_action_flg_sum$feature)
+  n_distinct(sessions_action_flg_sum$feature) #360
   saveRDS(sessions_action_flg_sum, "cache/sessions_action_flg_sum.RData")
   
-  
+  #new feature "sessions_action_type_flg_sum": sum over times, by user_id and action_type
   sessions_action_type_flg_sum <- sessions[,list(flg_sum = sum(flg, na.rm=T)),
                                            by=list(user_id, action_type)]
-  sessions_action_type_flg_sum <- melt.data.table(sessions_action_type_flg_sum)
-  sessions_action_type_flg_sum$variable <- NULL
   sessions_action_type_flg_sum <- data.frame(sessions_action_type_flg_sum)
   names(sessions_action_type_flg_sum) <- c("id", "feature", "value")
   sessions_action_type_flg_sum$feature <- paste("action_type_flg_sum", sessions_action_type_flg_sum$feature, sep="_")
   n_distinct(sessions_action_type_flg_sum$feature)
   saveRDS(sessions_action_type_flg_sum, "cache/sessions_action_type_flg_sum.RData")
   
-  
+  #new feature "sessions_action_detail_flg_sum": sum over times, by user_id and action_detail
   sessions_action_detail_flg_sum <- sessions[,list(flg_sum = sum(flg, na.rm=T)),
                                              by=list(user_id, action_detail)]
-  sessions_action_detail_flg_sum <- melt.data.table(sessions_action_detail_flg_sum)
-  sessions_action_detail_flg_sum$variable <- NULL
   sessions_action_detail_flg_sum <- data.frame(sessions_action_detail_flg_sum)
   names(sessions_action_detail_flg_sum) <- c("id", "feature", "value")
   sessions_action_detail_flg_sum$feature <- paste("action_detail_flg_sum", sessions_action_detail_flg_sum$feature, sep="_")
   n_distinct(sessions_action_detail_flg_sum$feature)
   saveRDS(sessions_action_detail_flg_sum, "cache/sessions_action_detail_flg_sum.RData")
   
-  
+  #new feature "sessions_device_type_flg_sum": sum over times, by user_id and device_type
   sessions_device_type_flg_sum <- sessions[,list(flg_sum = sum(flg, na.rm=T)),
                                            by=list(user_id, device_type)]
-  sessions_device_type_flg_sum <- melt.data.table(sessions_device_type_flg_sum)
-  sessions_device_type_flg_sum$variable <- NULL
   sessions_device_type_flg_sum <- data.frame(sessions_device_type_flg_sum)
   names(sessions_device_type_flg_sum) <- c("id", "feature", "value")
   sessions_device_type_flg_sum$feature <- paste("device_type_flg_sum", sessions_device_type_flg_sum$feature, sep="_")
-  n_distinct(sessions_device_type_flg_sum$feature)
+  n_distinct(sessions_device_type_flg_sum$feature) # 14
   saveRDS(sessions_device_type_flg_sum, "cache/sessions_device_type_flg_sum.RData")
   
-  
+  #new feature "sessions_action_se_mean": mean over secs_elapsed, by user_id and action
   sessions_action_se_mean <- sessions[,list(secs_elapsed_mean = mean(secs_elapsed, na.rm=T)),
                                       by=list(user_id, action)]
-  sessions_action_se_mean <- melt.data.table(sessions_action_se_mean)
-  sessions_action_se_mean$variable <- NULL
   sessions_action_se_mean <- data.frame(sessions_action_se_mean)
   names(sessions_action_se_mean) <- c("id", "feature", "value")
   sessions_action_se_mean$feature <- paste("action_se_mean", sessions_action_se_mean$feature, sep="_")
-  n_distinct(sessions_action_se_mean$feature)
+  n_distinct(sessions_action_se_mean$feature) #360
   saveRDS(sessions_action_se_mean, "cache/sessions_action_se_mean.RData")
   
-  
+  #new feature "sessions_action_type_se_mean":mean over secs_elapsed, by user_id and action_type
   sessions_action_type_se_mean <- sessions[,list(secs_elapsed_mean = mean(secs_elapsed, na.rm=T)),
                                            by=list(user_id, action_type)]
-  sessions_action_type_se_mean <- melt.data.table(sessions_action_type_se_mean)
-  sessions_action_type_se_mean$variable <- NULL
   sessions_action_type_se_mean <- data.frame(sessions_action_type_se_mean)
   names(sessions_action_type_se_mean) <- c("id", "feature", "value")
   sessions_action_type_se_mean$feature <- paste("action_type_se_mean", sessions_action_type_se_mean$feature, sep="_")
-  n_distinct(sessions_action_type_se_mean$feature)
+  n_distinct(sessions_action_type_se_mean$feature) #11
   saveRDS(sessions_action_type_se_mean, "cache/sessions_action_type_se_mean.RData")
   
-  
+  #new feature "sessions_action_detail_se_mean": mean over secs_elapsed, by user_id and action_detail.
   sessions_action_detail_se_mean <- sessions[,list(secs_elapsed_mean = mean(secs_elapsed, na.rm=T)),
                                              by=list(user_id, action_detail)]
-  sessions_action_detail_se_mean <- melt.data.table(sessions_action_detail_se_mean)
-  sessions_action_detail_se_mean$variable <- NULL
   sessions_action_detail_se_mean <- data.frame(sessions_action_detail_se_mean)
   names(sessions_action_detail_se_mean) <- c("id", "feature", "value")
   sessions_action_detail_se_mean$feature <- paste("action_detail_se_mean", sessions_action_detail_se_mean$feature, sep="_")
-  n_distinct(sessions_action_detail_se_mean$feature)
+  n_distinct(sessions_action_detail_se_mean$feature) #156
   saveRDS(sessions_action_detail_se_mean, "cache/sessions_action_detail_se_mean.RData")
   
-  
+  #new feature "sessions_device_type_se_mean": mean over secs_elapsed, by user_id and device_type
   sessions_device_type_se_mean <- sessions[,list(secs_elapsed_mean = mean(secs_elapsed, na.rm=T)),
                                            by=list(user_id, device_type)]
-  sessions_device_type_se_mean <- melt.data.table(sessions_device_type_se_mean)
-  sessions_device_type_se_mean$variable <- NULL
   sessions_device_type_se_mean <- data.frame(sessions_device_type_se_mean)
   names(sessions_device_type_se_mean) <- c("id", "feature", "value")
   sessions_device_type_se_mean$feature <- paste("device_type_se_mean", sessions_device_type_se_mean$feature, sep="_")
-  n_distinct(sessions_device_type_se_mean$feature)
+  n_distinct(sessions_device_type_se_mean$feature) #14
   saveRDS(sessions_device_type_se_mean, "cache/sessions_device_type_se_mean.RData")
   
-  
+  #new feature "sessions_action_se_sd": standard deviation over secs_elapsed, by user_id and action
   sessions_action_se_sd <- sessions[,list(secs_elapsed_sd = sd(secs_elapsed, na.rm=T)),
                                     by=list(user_id, action)]
-  sessions_action_se_sd <- melt.data.table(sessions_action_se_sd)
-  sessions_action_se_sd$variable <- NULL
   sessions_action_se_sd <- data.frame(sessions_action_se_sd)
   names(sessions_action_se_sd) <- c("id", "feature", "value")
   sessions_action_se_sd$feature <- paste("action_se_sd", sessions_action_se_sd$feature, sep="_")
-  n_distinct(sessions_action_se_sd$feature)
+  n_distinct(sessions_action_se_sd$feature) #360
   saveRDS(sessions_action_se_sd, "cache/sessions_action_se_sd.RData")
   
-  
+  #new feature "sessions_action_type_se_sd": standard deviation over secs_elapsed, by user_id and action_type 
   sessions_action_type_se_sd <- sessions[,list(secs_elapsed_sd = sd(secs_elapsed, na.rm=T)),
                                          by=list(user_id, action_type)]
-  sessions_action_type_se_sd <- melt.data.table(sessions_action_type_se_sd)
-  sessions_action_type_se_sd$variable <- NULL
   sessions_action_type_se_sd <- data.frame(sessions_action_type_se_sd)
   names(sessions_action_type_se_sd) <- c("id", "feature", "value")
   sessions_action_type_se_sd$feature <- paste("action_type_se_sd", sessions_action_type_se_sd$feature, sep="_")
-  n_distinct(sessions_action_type_se_sd$feature)
+  n_distinct(sessions_action_type_se_sd$feature) #11
   saveRDS(sessions_action_type_se_sd, "cache/sessions_action_type_se_sd.RData")
   
-  
+  #new feature "sessions_action_detail_se_sd": standard deviation over secs_elapsed, by user_id and aciton_detail
   sessions_action_detail_se_sd <- sessions[,list(secs_elapsed_sd = sd(secs_elapsed, na.rm=T)),
                                            by=list(user_id, action_detail)]
-  sessions_action_detail_se_sd <- melt.data.table(sessions_action_detail_se_sd)
-  sessions_action_detail_se_sd$variable <- NULL
   sessions_action_detail_se_sd <- data.frame(sessions_action_detail_se_sd)
   names(sessions_action_detail_se_sd) <- c("id", "feature", "value")
   sessions_action_detail_se_sd$feature <- paste("action_detail_se_sd", sessions_action_detail_se_sd$feature, sep="_")
-  n_distinct(sessions_action_detail_se_sd$feature)
+  n_distinct(sessions_action_detail_se_sd$feature) #156
   saveRDS(sessions_action_detail_se_sd, "cache/sessions_action_detail_se_sd.RData")
   
-  
+  #new feature "sessions_device_type_se_sd": standard deviation over secs_elapsed, by user_id and device_type
   sessions_device_type_se_sd <- sessions[,list(secs_elapsed_sd = sd(secs_elapsed, na.rm=T)),
                                          by=list(user_id, device_type)]
-  sessions_device_type_se_sd <- melt.data.table(sessions_device_type_se_sd)
-  sessions_device_type_se_sd$variable <- NULL
   sessions_device_type_se_sd <- data.frame(sessions_device_type_se_sd)
   names(sessions_device_type_se_sd) <- c("id", "feature", "value")
   sessions_device_type_se_sd$feature <- paste("device_type_se_sd", sessions_device_type_se_sd$feature, sep="_")
-  n_distinct(sessions_device_type_se_sd$feature)
+  n_distinct(sessions_device_type_se_sd$feature) #14
   saveRDS(sessions_device_type_se_sd, "cache/sessions_device_type_se_sd.RData")
   
-  
+  #new feature "sessions_action_se_wrmean": weight-mean over secs_elapsed, by user_id and action. weight value:reverse order by record for each user
   sessions_action_se_wrmean <- sessions[,list(secs_elapsed_wrmean = weighted.mean(secs_elapsed, w = 1/seq_rev)),
                                         by=list(user_id, action)]
-  sessions_action_se_wrmean <- melt.data.table(sessions_action_se_wrmean)
-  sessions_action_se_wrmean$variable <- NULL
   sessions_action_se_wrmean <- data.frame(sessions_action_se_wrmean)
   names(sessions_action_se_wrmean) <- c("id", "feature", "value")
   sessions_action_se_wrmean$feature <- paste("action_se_wrmean", sessions_action_se_wrmean$feature, sep="_")
@@ -363,76 +347,63 @@ if(first_execution == 1){
   saveRDS(sessions_action_se_wrmean, "cache/sessions_action_se_wrmean.RData")
   
   
+  #new feature "sessions_action_type_se_wrmean": weight-mean over secs_elapsed, by user_id and action_type 
   sessions_action_type_se_wrmean <- sessions[,list(secs_elapsed_wrmean = weighted.mean(secs_elapsed, w = 1/seq_rev)),
                                              by=list(user_id, action_type)]
-  sessions_action_type_se_wrmean <- melt.data.table(sessions_action_type_se_wrmean)
-  sessions_action_type_se_wrmean$variable <- NULL
   sessions_action_type_se_wrmean <- data.frame(sessions_action_type_se_wrmean)
   names(sessions_action_type_se_wrmean) <- c("id", "feature", "value")
   sessions_action_type_se_wrmean$feature <- paste("action_type_se_wrmean", sessions_action_type_se_wrmean$feature, sep="_")
   n_distinct(sessions_action_type_se_wrmean$feature)
   saveRDS(sessions_action_type_se_wrmean, "cache/sessions_action_type_se_wrmean.RData")
   
-  
+  #new feature "sessions_action_detail_se_wrmean": weight-mean over secs_elapsed, by user_id and action_detail 
   sessions_action_detail_se_wrmean <- sessions[,list(secs_elapsed_wrmean = weighted.mean(secs_elapsed, w = 1/seq_rev)),
                                                by=list(user_id, action_detail)]
-  sessions_action_detail_se_wrmean <- melt.data.table(sessions_action_detail_se_wrmean)
-  sessions_action_detail_se_wrmean$variable <- NULL
   sessions_action_detail_se_wrmean <- data.frame(sessions_action_detail_se_wrmean)
   names(sessions_action_detail_se_wrmean) <- c("id", "feature", "value")
   sessions_action_detail_se_wrmean$feature <- paste("action_detail_se_wrmean", sessions_action_detail_se_wrmean$feature, sep="_")
   n_distinct(sessions_action_detail_se_wrmean$feature)
   saveRDS(sessions_action_detail_se_wrmean, "cache/sessions_action_detail_se_wrmean.RData")
   
-  
+  #new feature "sessions_device_type_se_wrmean": weight-mean over secs_elapsed, by user_id and device_type 
   sessions_device_type_se_wrmean <- sessions[,list(secs_elapsed_wrmean = weighted.mean(secs_elapsed, w = 1/seq_rev)),
                                              by=list(user_id, device_type)]
-  sessions_device_type_se_wrmean <- melt.data.table(sessions_device_type_se_wrmean)
-  sessions_device_type_se_wrmean$variable <- NULL
   sessions_device_type_se_wrmean <- data.frame(sessions_device_type_se_wrmean)
   names(sessions_device_type_se_wrmean) <- c("id", "feature", "value")
   sessions_device_type_se_wrmean$feature <- paste("device_type_se_wrmean", sessions_device_type_se_wrmean$feature, sep="_")
   n_distinct(sessions_device_type_se_wrmean$feature)
   saveRDS(sessions_device_type_se_wrmean, "cache/sessions_device_type_se_wrmean.RData")
   
-  
+  #new feature "sessions_action_se_wmean": weight-mean over secs_elapsed, by user_id and action, order by user record for each user
   sessions_action_se_wmean <- sessions[,list(secs_elapsed_wmean = weighted.mean(secs_elapsed, w = 1/seq)),
                                        by=list(user_id, action)]
-  sessions_action_se_wmean <- melt.data.table(sessions_action_se_wmean)
-  sessions_action_se_wmean$variable <- NULL
   sessions_action_se_wmean <- data.frame(sessions_action_se_wmean)
   names(sessions_action_se_wmean) <- c("id", "feature", "value")
   sessions_action_se_wmean$feature <- paste("action_se_wmean", sessions_action_se_wmean$feature, sep="_")
   n_distinct(sessions_action_se_wmean$feature)
   saveRDS(sessions_action_se_wmean, "cache/sessions_action_se_wmean.RData")
   
-  
+  #new feature "sessions_action_type_se_wmean": weight-mean over secs_elapsed, by user_id and action_type
   sessions_action_type_se_wmean <- sessions[,list(secs_elapsed_wmean = weighted.mean(secs_elapsed, w = 1/seq)),
                                             by=list(user_id, action_type)]
-  sessions_action_type_se_wmean <- melt.data.table(sessions_action_type_se_wmean)
-  sessions_action_type_se_wmean$variable <- NULL
   sessions_action_type_se_wmean <- data.frame(sessions_action_type_se_wmean)
   names(sessions_action_type_se_wmean) <- c("id", "feature", "value")
   sessions_action_type_se_wmean$feature <- paste("action_type_se_wmean", sessions_action_type_se_wmean$feature, sep="_")
   n_distinct(sessions_action_type_se_wmean$feature)
   saveRDS(sessions_action_type_se_wmean, "cache/sessions_action_type_se_wmean.RData")
   
-  
+  #new feature "sessions_action_detail_se_wmean": weight-mean over secs_elapsed, by user_id and action_detail
   sessions_action_detail_se_wmean <- sessions[,list(secs_elapsed_wmean = weighted.mean(secs_elapsed, w = 1/seq)),
                                               by=list(user_id, action_detail)]
-  sessions_action_detail_se_wmean <- melt.data.table(sessions_action_detail_se_wmean)
-  sessions_action_detail_se_wmean$variable <- NULL
   sessions_action_detail_se_wmean <- data.frame(sessions_action_detail_se_wmean)
   names(sessions_action_detail_se_wmean) <- c("id", "feature", "value")
   sessions_action_detail_se_wmean$feature <- paste("action_detail_se_wmean", sessions_action_detail_se_wmean$feature, sep="_")
   n_distinct(sessions_action_detail_se_wmean$feature)
   saveRDS(sessions_action_detail_se_wmean, "cache/sessions_action_detail_se_wmean.RData")
   
-  
+  #new feature "sessions_device_type_se_wmean": weight-mean over secs_elapsed, by user_id and device_type
   sessions_device_type_se_wmean <- sessions[,list(secs_elapsed_wmean = weighted.mean(secs_elapsed, w = 1/seq)),
                                             by=list(user_id, device_type)]
-  sessions_device_type_se_wmean <- melt.data.table(sessions_device_type_se_wmean)
-  sessions_device_type_se_wmean$variable <- NULL
   sessions_device_type_se_wmean <- data.frame(sessions_device_type_se_wmean)
   names(sessions_device_type_se_wmean) <- c("id", "feature", "value")
   sessions_device_type_se_wmean$feature <- paste("device_type_se_wmean", sessions_device_type_se_wmean$feature, sep="_")
