@@ -1,8 +1,7 @@
-## DS_Group_Coursework
-###### Group Coursework of 'Foundation of Data Science'
-This is the project of from the kaggle competition
+## Group Coursework of 'Foundation of Data Science'
+###### This is the project of from the kaggle competition
 ###### Group name : H 
-Group member    : <br>
+###### Group member    : <br>
 
 |Members name | Members email|
 |:------------: | :-------------:|
