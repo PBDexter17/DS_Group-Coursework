@@ -10,4 +10,4 @@ Group member    : <br>
 |Jie Su       | js2m17@soton.ac.uk|
 |Xinyu Hu     | xh2n17@soton.ac.uk|
 |Junjie Lu    | jl9n17@soton.ac.uk|
-|Shuo Wang    | @soton.ac.uk|
+|Shuo Wang    | sw4m17@soton.ac.uk|
