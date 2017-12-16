@@ -18,7 +18,7 @@ New users on Airbnb can book a place to stay in 34,000+ cities across 190+ count
 In this competition, the goal is to predict in which country a new user will make his or her first booking. There are 12 possible outcomes of the destination country and the datasets consist of a list of users with their demographics, web session records, and some summary statistics.
 
 ## Data
-Please download the data file from the drop box (Github limits the upload file size) from [here](https://www.dropbox.com/l/AACPeP_iUS0U75-uJPJEXfZln-aOAYhHji8)<br>
+Please download the data file from the drop box (Github limits the upload file size) from **[here](https://www.dropbox.com/s/aecihu4d566su4q/data.zip?dl=0)**.<br>
 After download the data, please decompress the data file and put it under the pythonKaggle directory.(e.g. pythonKaggle/data)
 
 
