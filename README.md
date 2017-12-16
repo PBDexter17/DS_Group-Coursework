@@ -20,12 +20,12 @@ In this competition, the goal is to predict in which country a new user will mak
 
 ## Requirements
 To replicate the findings and execute the code in this repository you will need basically the next Python packages:<br>
-* [NumPy](URL 'http://www.numpy.org')
-* [Pandas](URL 'http://pandas.pydata.org')
-* [Jupyter](URL 'http://jupyter.org')
-* [SciKit-Learn](URL 'http://scikit-learn.org/stable/')
-* [Matplotlib](URL 'http://matplotlib.org')
+* [NumPy](http://www.numpy.org)
+* [Pandas](http://pandas.pydata.org)
+* [Jupyter](http://jupyter.org)
+* [SciKit-Learn](http://scikit-learn.org/stable/)
+* [Matplotlib](http://matplotlib.org)
 
 ## Resources
-* [XGBoost Documentation](URL 'https://xgboost.readthedocs.io/en/latest/') - A library designed and optimized for boosted (tree) algorithms.
+* [XGBoost Documentation](https://xgboost.readthedocs.io/en/latest/) - A library designed and optimized for boosted (tree) algorithms.
 
