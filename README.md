@@ -8,7 +8,7 @@ Group member    : <br>
 |:------------: | :-------------:|
 |Bin Qian     | bq1y17@soton.ac.uk|
 |Jie Su       | js2m17@soton.ac.uk|
-|Xinyu Hu     | xh2n17@soton.ac.uk|
+|**Xinyu Hu**     | xh2n17@soton.ac.uk|
 |Junjie Lu    | jl9n17@soton.ac.uk|
 |Shuo Wang    | sw4m17@soton.ac.uk|
 
