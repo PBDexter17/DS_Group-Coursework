@@ -22,8 +22,9 @@ Please download the data file from the drop box (Github limits the upload file s
 After download the data, please decompress the data file and put it under the pythonKaggle directory.(e.g. pythonKaggle/data)
 
 ## Connect MongoDB to Visualisation tool (Tableau)
-* Creating connection
-downloading the tool in **[here]()**
+* Downloading the tool in **[official site](https://www.mongodb.com/download-center#bi-connector)**
+* Open MongoDB and use "mongodrdl -d mydb -c airbnb schema.drdl" to create schema 
+* C
 
 ## Tableau Visualisation Link
 This is the visualisation [link](https://public.tableau.com/views/map3_10/Sheet1?:embed=y&:display_count=yes&publish=yes ) in the Tableau of our project
