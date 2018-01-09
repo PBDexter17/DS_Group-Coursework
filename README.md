@@ -26,7 +26,7 @@ After download the data, please decompress the data file and put it under the py
 * Open MongoDB and use "mongodrdl -d mydb -c airbnb schema.drdl" to create schema 
 * Connect to the server by"--host 127.0.0.1:27017 --username Mymongo --password 12345 -db mydb --colloction airbnb --authenticationDatabase admin --out schema.drdl"
 * Cnonnecting: "mongosqld.exe --schema schema.drdl" 
-* Connect to Tableau: 
+* Connect to Tableau:<br> 
 ![alt text][logo]
 
 [logo]: https://github.com/PBDexter17/DS_Group_Coursework/blob/master/pythonKaggle/Markdown_img/Picture1.png "Logo Title Text 2"
