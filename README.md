@@ -22,7 +22,7 @@ Please download the data file from the drop box (Github limits the upload file s
 After download the data, please decompress the data file and put it under the pythonKaggle directory.(e.g. pythonKaggle/data)
 
 ## Connect MongoDB to Visualisation tool (Tableau)
-* Downloading the tool in **[official site](https://www.mongodb.com/download-center#bi-connector)**
+* Downloading the **[BI tool](https://www.mongodb.com/download-center#bi-connector)** and **[MongoDB](https://www.mongodb.com)**
 * Open MongoDB and use "mongodrdl -d mydb -c airbnb schema.drdl" to create schema 
 * Connect to the server by"--host 127.0.0.1:27017 --username Mymongo --password 12345 -db mydb --colloction airbnb --authenticationDatabase admin --out schema.drdl"
 
