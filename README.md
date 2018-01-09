@@ -32,7 +32,7 @@ After download the data, please decompress the data file and put it under the py
 [logo]: https://github.com/PBDexter17/DS_Group_Coursework/blob/master/pythonKaggle/Markdown_img/Picture1.png "Logo Title Text 2"
 
 ## Tableau Visualisation Link
-This is the visualisation [link](https://public.tableau.com/views/map3_10/Sheet1?:embed=y&:display_count=yes&publish=yes ) in the Tableau of our project
+This is the visualisation **[link](https://public.tableau.com/views/map3_10/Sheet1?:embed=y&:display_count=yes&publish=yes)** in the Tableau of our project
 
 
 ## Requirements
