@@ -24,7 +24,7 @@ After download the data, please decompress the data file and put it under the py
 ## Connect MongoDB to Visualisation tool (Tableau)
 * Downloading the tool in **[official site](https://www.mongodb.com/download-center#bi-connector)**
 * Open MongoDB and use "mongodrdl -d mydb -c airbnb schema.drdl" to create schema 
-* C
+* Connect to the server by"--host 127.0.0.1:27017 --username Mymongo --password 12345 -db mydb --colloction airbnb --authenticationDatabase admin --out schema.drdl"
 
 ## Tableau Visualisation Link
 This is the visualisation [link](https://public.tableau.com/views/map3_10/Sheet1?:embed=y&:display_count=yes&publish=yes ) in the Tableau of our project
