@@ -1,4 +1,4 @@
-## Group Coursework of 'Foundation of Data Science'
+## COMP6235: Foundation of Data Science (2017-2018) Course Work 3
 ###### This is the project of from the kaggle competition
 ###### Group name : H 
 ###### Group member    : <br>
