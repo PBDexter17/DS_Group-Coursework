@@ -49,7 +49,7 @@ You can use "[condo](https://conda.io/docs/user-guide/install/index.html)" or "[
 * [Jupyter Notbook](http://jupyter.org) **("The Notebook environment should set up as Python3")**
 * [SciKit-Learn](http://scikit-learn.org/stable/)
 * [Matplotlib](http://matplotlib.org)
-* [XGBoost Installation](https://xgboost.readthedocs.io/en/latest/build.html)**(take about 15mins)**
+* [XGBoost Installation](https://xgboost.readthedocs.io/en/latest/build.html)**(take about 15mins, little bit complex in windows system)**
 
 ## Resources
 * [XGBoost Documentation](https://xgboost.readthedocs.io/en/latest/) - A library designed and optimized for boosted (tree) algorithms.
