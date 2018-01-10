@@ -37,6 +37,7 @@ This is the visualisation **[link](https://public.tableau.com/views/map3_10/Shee
 
 ## Requirements
 To replicate the findings and execute the code in this repository you will need basically the next Python packages:<br>
+You can use condo or pip to install those python package<br>
 * [NumPy](http://www.numpy.org)
 * [Pandas](http://pandas.pydata.org)
 * [Jupyter Notbook](http://jupyter.org) **("The Notebook environment should set up as Python3")**
