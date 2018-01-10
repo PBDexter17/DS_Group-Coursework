@@ -42,6 +42,7 @@ To replicate the findings and execute the code in this repository you will need 
 * [Jupyter](http://jupyter.org)
 * [SciKit-Learn](http://scikit-learn.org/stable/)
 * [Matplotlib](http://matplotlib.org)
+* [XGBoost Installation](https://xgboost.readthedocs.io/en/latest/build.html)**(take about 15mins)**
 
 ## Resources
 * [XGBoost Documentation](https://xgboost.readthedocs.io/en/latest/) - A library designed and optimized for boosted (tree) algorithms.
