@@ -27,6 +27,17 @@ In this competition, the goal is to predict in which country a new user will mak
 Please download the **[data](https://www.dropbox.com/s/aecihu4d566su4q/data.zip?dl=0)** file from the drop box (Github limits the upload file size).<br>
 After download the data, please decompress the data file and put it under the pythonKaggle directory.(e.g. pythonKaggle/data)
 
+## Check the accuracy
+* Please check the accuarcy in the **[submission](https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings)** site of Kaggle competition
+* If you haven't registered, then try the login account below:
+* Account ID: **602670464@qq.com**
+* Password: **antelope0718**
+* The image shows below is our submit detail:<br>
+![alt text][submit]
+
+[submit]: https://github.com/PBDexter17/DS_Group_Coursework/blob/master/pythonKaggle/Markdown_img/submit_detail.png "Logo Title Text 1"
+
+
 ## Connect MongoDB to Visualisation tool (Tableau)
 * Downloading the **[BI tool](https://www.mongodb.com/download-center#bi-connector)** and **[MongoDB](https://www.mongodb.com)**
 * Open MongoDB and use "mongodrdl -d mydb -c airbnb schema.drdl" to create schema 
