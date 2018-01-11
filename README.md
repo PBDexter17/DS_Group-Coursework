@@ -24,7 +24,8 @@ In this competition, the goal is to predict in which country a new user will mak
 * Graphics Intel Iris 1536 MB
 
 ## Data
-Please download the **[data](https://www.dropbox.com/s/aecihu4d566su4q/data.zip?dl=0)** file from the drop box (Github limits the upload file size).<br>
+* drop the **get_dataset.sh** file into the command line or Terminal to auto download the data file([Homebrew](https://brew.sh) should be set before)
+* If there are something wrong with above, you can try to download the **[data](https://www.dropbox.com/s/aecihu4d566su4q/data.zip?dl=0)** file from the drop box (Github limits the upload file size).<br>
 After download the data, please decompress the data file and put it under the pythonKaggle directory.(e.g. pythonKaggle/data)
 
 ## Check the accuracy
